@@ -2,7 +2,7 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/Joshua-Flores/todo-app/issues"
   },
-  "homepage": "https://github.com/Joshua-Flores/todo-app#readme"
+  "homepage": "https://github.com/Joshua-Flores/todo-app#readme",
+  "devDependencies": {
+    "sass": "^1.34.0",
+    "sass-loader": "^12.0.0",
+    "webpack": "^5.38.1",
+    "webpack-cli": "^4.7.0"
+  },
+  "dependencies": {
+    "fomantic-ui": "^2.8.7"
+  }
 }
