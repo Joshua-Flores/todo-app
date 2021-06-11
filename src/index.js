@@ -13,12 +13,16 @@ class Todo {
     this.category = "Personal";
     this.notes = "";
     this.priority = "";
+    this.dueDate = "";
   }
   getName() {
     return this.name;
   }
   getNotes() {
     return this.notes;
+  }
+  getDueDate() {
+    return this.dueDate;
   }
 }
 
@@ -71,13 +75,22 @@ const updateCompleted = (id, value) => {
   todo.completed = value;
 };
 
-const todoUpdateController = (id, name, notes, category, priority, status) => {
+const todoUpdateController = (
+  id,
+  name,
+  notes,
+  category,
+  priority,
+  dueDate,
+  status
+) => {
   const todo = todos.find((todo) => todo.id === id);
   todo.name = name;
   todo.notes = notes;
   todo.category = category;
   todo.priority = priority;
   todo.completed = status;
+  todo.dueDate = dueDate;
   renderTodos(todos);
 };
 
@@ -125,6 +138,7 @@ const renderDetailedForm = (todo) => {
             todo.id
           }" value="${todo.getName()}">
         </div>
+        
         <div class="field">
           <label>Notes</label>
           <textarea rows="2" name="notes-${todo.id}" id="notes-${
@@ -146,6 +160,12 @@ const renderDetailedForm = (todo) => {
           </div>
         </div>
         <div class="field">
+          <label>Due Date</label>
+          <input type="date" name="date" id="dueDate-${
+            todo.id
+          }" value="${todo.getDueDate()}">
+        </div>
+        <div class="field">
           <label>Status</label>
           <div class="ui selection dropdown" id="status-dropdown-${todo.id}">
             <div class="text"></div>
@@ -153,8 +173,9 @@ const renderDetailedForm = (todo) => {
           </div>
         </div>
         <div class="form-actions">
-          <button class="ui button">Cancel</button>
-          <button class="ui red button">Delete</button>
+          <button class="ui red button" id="delete-button-${
+            todo.id
+          }">Delete</button>
           <button class="ui button positive" type="submit">Update</button>
         </div>
       </form>`;
@@ -195,6 +216,15 @@ const renderDetailedForm = (todo) => {
       ],
     });
 
+    document
+      .getElementById(`delete-button-${todo.id}`)
+      .addEventListener("click", (e) => {
+        e.preventDefault();
+        const index = todos.findIndex((x) => x.id === todo.id);
+        todos.splice(index, 1);
+        renderTodos(todos);
+      });
+
     //event listener for form submission
     document
       .getElementById(`detailed-form-${todo.id}`)
@@ -212,7 +242,16 @@ const renderDetailedForm = (todo) => {
           $(`#status-dropdown-${todo.id}`).dropdown("get value") === "true"
             ? true
             : false;
-        todoUpdateController(todo.id, name, notes, category, priority, status);
+        const dueDate = document.getElementById(`dueDate-${todo.id}`).value;
+        todoUpdateController(
+          todo.id,
+          name,
+          notes,
+          category,
+          priority,
+          dueDate,
+          status
+        );
       });
   });
 };
