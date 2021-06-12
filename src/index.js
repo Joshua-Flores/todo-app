@@ -2,7 +2,7 @@ import "./style.sass";
 import { v4 as uuidv4 } from "uuid";
 
 const todos = [];
-const categories = ["Personal", "Work"];
+const categories = ["Personal"];
 const priorities = ["Low", "Medium", "High"];
 
 class Todo {
@@ -42,6 +42,42 @@ const resetDOM = () => {
 const resetTodoForm = () => {
   document.getElementById("todoInputSimple").value = "";
 };
+
+const addCategory = (category) => {
+  categories.push(category);
+};
+
+const renderCategories = () => {
+  const categoryList = document.getElementById("categories-list");
+  const element = document.createElement("a");
+  categories.forEach((category) => {
+    element.setAttribute("href", `#${category}`);
+    element.classList.add("item");
+    element.innerText = category;
+    categoryList.appendChild(element);
+  });
+};
+
+const categoryFormListener = (() => {
+  const categoryForm = document.getElementById("add-category");
+  categoryForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const category = document.getElementById("add-category-input").value;
+    addCategory(category);
+    renderCategories();
+    document.getElementById("add-category-input").value = "";
+  });
+})();
+
+window.addEventListener("hashchange", () => {
+  if (window.location.hash) {
+    const hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
+    document.getElementById("page-title").innerText = hash;
+    // hash found
+  } else {
+    // No hash found
+  }
+});
 
 const simpleFormListener = (() => {
   const todoFormSimple = document.getElementById("todoFormSimple");
@@ -93,6 +129,8 @@ const todoUpdateController = (
   todo.dueDate = dueDate;
   renderTodos(todos);
 };
+
+// render category form
 
 // create the elements of the simplified checklist and append to the DOM
 const renderChecklistItem = (todo) => {

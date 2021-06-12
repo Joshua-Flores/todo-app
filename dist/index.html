@@ -21,21 +21,28 @@
           <img src="./images/logo.svg" alt="Laterbase" />
         </div>
         <h5>Categories</h5>
-        <a class="item"> Personal </a>
+        <div id="categories-list">
+          <a class="item" href="#Personal"> Personal </a>
+        </div>
         <div class="ui inverted segment">
-          <button
-            class="ui small right labeled inverted icon button"
-            type="submit"
-            name="submit"
-          >
-            Add category<i class="plus icon"></i>
-          </button>
+          <form class="ui form" id="add-category">
+            <div class="ui input">
+              <input
+                type="text"
+                placeholder="Add category"
+                id="add-category-input"
+              />
+            </div>
+            <button class="ui icon button grey">
+              <i class="plus icon"></i>
+            </button>
+          </form>
         </div>
       </div>
       <div class="pusher">
         <div class="ui grid">
           <div class="eight wide column">
-            <h1>Personal</h1>
+            <h1 id="page-title">Personal</h1>
             <div id="todoList" class="todo-list"></div>
             <form class="ui form one-liner" id="todoFormSimple">
               <div class="field">
