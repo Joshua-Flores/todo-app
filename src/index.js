@@ -1,8 +1,12 @@
 import "./style.sass";
 import { v4 as uuidv4 } from "uuid";
+import {
+  checklistItemTemplate,
+  todoFormDetailedTemplate,
+} from "./modules/functions";
 
 const todos = [];
-const categories = ["Personal"];
+const categories = ["Personal", "Work"];
 const priorities = ["Low", "Medium", "High"];
 
 class Todo {
@@ -47,16 +51,29 @@ const addCategory = (category) => {
   categories.push(category);
 };
 
-const renderCategories = () => {
+const renderCategories = (() => {
+  console.log(categories);
   const categoryList = document.getElementById("categories-list");
-  const element = document.createElement("a");
+
   categories.forEach((category) => {
+    const element = document.createElement("a");
+    const span = document.createElement("span");
+    const button = document.createElement("button");
     element.setAttribute("href", `#${category}`);
     element.classList.add("item");
-    element.innerText = category;
+    span.innerText = category;
+    button.classList.add("ui", "icon", "grey", "button");
+    button.setAttribute("id", `delete-category-button-${category}`);
+    button.innerHTML = `<i class="delete icon"></i>`;
+    button.onclick = function () {
+      console.log(category);
+    };
+    element.appendChild(span);
+    element.appendChild(button);
     categoryList.appendChild(element);
+    console.log(element);
   });
-};
+})();
 
 const categoryFormListener = (() => {
   const categoryForm = document.getElementById("add-category");
@@ -137,19 +154,7 @@ const renderChecklistItem = (todo) => {
   const list = document.getElementById("todoList");
   const element = document.createElement("div");
   element.classList.add("ui", "card");
-  element.innerHTML = `
-        <div class="content">
-            <div class="description form-simple" id="form-${todo.id}">
-                <div class="ui checkbox">
-                    <input value="55" id=${`checkbox-${todo.id}`} type="checkbox" name=${`checkbox-${todo.id}`} ${
-    todo.completed && "checked"
-  }>
-                    <label for=${`checkbox-${todo.id}`}>${todo.getName()}</label>
-                </div>
-            </div>
-            <button class="ui compact icon button positive basic" id=${`more-button-${todo.id}`}><i class="ellipsis horizontal icon"></i></button>
-        </div>
-        `;
+  element.innerHTML = checklistItemTemplate(todo);
   list.appendChild(element);
   $(".ui.checkbox").checkbox();
 
@@ -168,55 +173,7 @@ const renderDetailedForm = (todo) => {
   moreButton.addEventListener("click", (e) => {
     const todoForm = document.getElementById(`form-${todo.id}`);
     moreButton.setAttribute("style", "display:none");
-    todoForm.innerHTML = `
-      <form class="ui form" id="detailed-form-${todo.id}">
-        <div class="field">
-          <label>Task name</label>
-          <input type="text" name="name" placeholder="Todo name" id="name-${
-            todo.id
-          }" value="${todo.getName()}">
-        </div>
-        
-        <div class="field">
-          <label>Notes</label>
-          <textarea rows="2" name="notes-${todo.id}" id="notes-${
-      todo.id
-    }" value="test">${todo.getNotes()}</textarea>
-        </div>
-        <div class="field">
-          <label>Category</label>
-          <div class="ui selection dropdown" id="category-dropdown-${todo.id}">
-            <div class="text"></div>
-            <i class="dropdown icon"></i>
-          </div>
-        </div>
-        <div class="field">
-          <label>Priority</label>
-          <div class="ui selection dropdown" id="priority-dropdown-${todo.id}">
-            <div class="text"></div>
-            <i class="dropdown icon"></i>
-          </div>
-        </div>
-        <div class="field">
-          <label>Due Date</label>
-          <input type="date" name="date" id="dueDate-${
-            todo.id
-          }" value="${todo.getDueDate()}">
-        </div>
-        <div class="field">
-          <label>Status</label>
-          <div class="ui selection dropdown" id="status-dropdown-${todo.id}">
-            <div class="text"></div>
-            <i class="dropdown icon"></i>
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="ui red button" id="delete-button-${
-            todo.id
-          }">Delete</button>
-          <button class="ui button positive" type="submit">Update</button>
-        </div>
-      </form>`;
+    todoForm.innerHTML = todoFormDetailedTemplate(todo);
 
     const renderDropdownValues = (dropdownArray, selectedValue) => {
       const dropdownValues = [];
