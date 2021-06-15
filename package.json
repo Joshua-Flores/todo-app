@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "fomantic-ui": "^2.8.7",
+    "style-loader": "^2.0.0",
     "uuid": "^8.3.2"
   }
 }
