@@ -1,7 +1,8 @@
 // update the completed value
 const updateCompleted = (todos, id, value) => {
-  const todo = todos.find((todo) => (todo.id = id));
+  const todo = todos.find((todo) => todo.id === id);
   todo.completed = value;
+  updateLocalStorageTodos(todos);
 };
 
 // create the elements of the simplified checklist and append to the DOM
@@ -32,20 +33,6 @@ const renderChecklistItem = (todos, todo) => {
       updateCompleted(todos, todo.id, e.target.checked);
     });
 };
-
-const checklistItemTemplate = (todo) => `
-<div class="content">
-    <div class="description form-simple" id="form-${todo.id}">
-        <div class="ui checkbox">
-            <input value="55" id=${`checkbox-${todo.id}`} type="checkbox" name=${`checkbox-${todo.id}`} ${
-  todo.completed && "checked"
-}>
-            <label for=${`checkbox-${todo.id}`}>${todo.getName()}</label>
-        </div>
-    </div>
-    <button class="ui compact icon button positive basic" id=${`more-button-${todo.id}`}><i class="ellipsis horizontal icon"></i></button>
-</div>
-`;
 
 const todoFormDetailedTemplate = (todo) => `
 <form class="ui form" id="detailed-form-${todo.id}">
@@ -95,4 +82,41 @@ const todoFormDetailedTemplate = (todo) => `
   </div>
 </form>`;
 
-export { renderChecklistItem, checklistItemTemplate, todoFormDetailedTemplate };
+const renderDropdownValues = (dropdownArray, selectedValue) => {
+  const dropdownValues = [];
+  dropdownArray.forEach((item) => {
+    if (item === selectedValue) {
+      dropdownValues.push({
+        name: item,
+        value: item,
+        selected: true,
+      });
+    } else {
+      dropdownValues.push({ name: item, value: item });
+    }
+  });
+  return dropdownValues;
+};
+
+const resetDOM = () => {
+  const dom = document.getElementById("todoList");
+  dom.innerHTML = "";
+};
+
+const updateLocalStorageTodos = (todos) => {
+  console.log(todos);
+  window.localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+const updateLocalStorageCategories = (categories) => {
+  window.localStorage.setItem("categories", JSON.stringify(categories));
+};
+
+export {
+  renderChecklistItem,
+  todoFormDetailedTemplate,
+  renderDropdownValues,
+  resetDOM,
+  updateLocalStorageTodos,
+  updateLocalStorageCategories,
+};

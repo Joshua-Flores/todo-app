@@ -4,7 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Todo App</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Laterbase" />
+    <meta
+      property="og:description"
+      content="Have a list of stuff to get done? Stick it on the Laterbase."
+    />
+    <meta property="og:image" content="./images/og-image.png" />
+    <title>Laterbase</title>
     <!-- You MUST include jQuery before Fomantic -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
     <link
@@ -15,31 +22,45 @@
     <script src="./semantic/dist/semantic.min.js"></script>
   </head>
   <body>
-    <div class="ui bottom attached segment pushable">
-      <div class="ui visible inverted left vertical sidebar menu">
-        <div class="logo">
-          <img src="./images/logo.svg" alt="Laterbase" />
-        </div>
-        <h5>Categories</h5>
-        <div id="categories-list"></div>
-        <div class="ui inverted segment">
-          <form class="ui form" id="add-category">
-            <div class="ui input">
-              <input
-                type="text"
-                placeholder="Add category"
-                id="add-category-input"
-              />
-            </div>
-            <button class="ui icon button grey">
-              <i class="plus icon"></i>
-            </button>
-          </form>
-        </div>
+    <div class="ui sidebar left inverted vertical menu">
+      <div class="logo">
+        <img src="./images/logo.svg" alt="Laterbase" />
       </div>
-      <div class="pusher">
-        <div class="ui grid">
-          <div class="eight wide column">
+      <h5>Categories</h5>
+      <div id="categories-list"></div>
+      <div class="ui inverted segment">
+        <form class="ui form" id="add-category">
+          <div class="ui input">
+            <input
+              type="text"
+              placeholder="Add category"
+              id="add-category-input"
+            />
+          </div>
+          <button class="ui icon button green">
+            <i class="plus icon"></i>
+          </button>
+        </form>
+      </div>
+      <div class="ui inverted segment footer">
+        <p>Created by Josh Flores</p>
+        <a href="https://github.com/Joshua-Flores/todo-app"
+          >View source on Github <i class="github icon"></i
+        ></a>
+      </div>
+    </div>
+    <div class="pusher">
+      <div class="ui grid scrolling content">
+        <div class="row">
+          <div class="sixteen wide column nav">
+            <button class="ui button" id="sidebar-menu-button">
+              <i class="bars icon"></i>
+              Menu
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="sixteen wide column">
             <h1 id="page-title">Personal</h1>
             <div id="todoList" class="todo-list"></div>
             <form class="ui form one-liner" id="todoFormSimple">
@@ -52,7 +73,7 @@
                 />
               </div>
               <button
-                class="ui right labeled icon button"
+                class="ui right labeled icon button green"
                 type="submit"
                 name="submit"
               >
