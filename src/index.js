@@ -72,6 +72,9 @@ const renderCategories = () => {
     const span = document.createElement("span");
     const button = document.createElement("button");
     element.setAttribute("href", `#${category}`);
+    element.addEventListener("click", (e) => {
+      toggleSidebar();
+    });
     element.classList.add("item");
     span.innerText = category;
     button.classList.add("ui", "icon", "grey", "button");
@@ -86,6 +89,13 @@ const renderCategories = () => {
   });
 };
 renderCategories();
+
+const toggleSidebar = () => {
+  const mediaQuery = window.matchMedia("(max-width: 992px)");
+  if (mediaQuery.matches) {
+    $(".ui.sidebar").sidebar("toggle");
+  }
+};
 
 const deleteCategory = (category) => {
   const index = categories.findIndex((x) => x === category);
