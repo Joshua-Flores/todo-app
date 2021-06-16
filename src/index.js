@@ -1,5 +1,5 @@
-import "./style.sass";
-import { v4 as uuidv4 } from "uuid";
+import './style.sass';
+import { v4 as uuidv4 } from 'uuid';
 import {
   todoFormDetailedTemplate,
   renderChecklistItem,
@@ -7,11 +7,11 @@ import {
   resetDOM,
   updateLocalStorageTodos,
   updateLocalStorageCategories,
-} from "./modules/functions";
+} from './modules/functions';
 
 const todos = [];
-const categories = ["Personal", "Work"];
-const priorities = ["Low", "Medium", "High"];
+const categories = ['Personal', 'Work'];
+const priorities = ['Low', 'Medium', 'High'];
 
 class Todo {
   constructor(name, id, category, completed, notes, priority, dueDate) {
@@ -19,16 +19,19 @@ class Todo {
     this.id = id;
     this.category = category;
     this.completed = completed ? true : false;
-    this.notes = notes ? notes : "";
-    this.priority = priority ? priority : "";
-    this.dueDate = dueDate ? dueDate : "";
+    this.notes = notes ? notes : '';
+    this.priority = priority ? priority : '';
+    this.dueDate = dueDate ? dueDate : '';
   }
+
   getName() {
     return this.name;
   }
+
   getNotes() {
     return this.notes;
   }
+
   getDueDate() {
     return this.dueDate;
   }
@@ -43,7 +46,7 @@ const createTodo = (todo, id, category) => {
 };
 
 const resetTodoForm = () => {
-  document.getElementById("todoInputSimple").value = "";
+  document.getElementById('todoInputSimple').value = '';
 };
 
 const addCategory = (category) => {
@@ -52,33 +55,33 @@ const addCategory = (category) => {
 };
 
 const categoryFormListener = (() => {
-  const categoryForm = document.getElementById("add-category");
-  categoryForm.addEventListener("submit", (e) => {
+  const categoryForm = document.getElementById('add-category');
+  categoryForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const category = document.getElementById("add-category-input").value.trim();
+    const category = document.getElementById('add-category-input').value.trim();
     if (category.length > 0) {
       addCategory(category);
       renderCategories();
-      document.getElementById("add-category-input").value = "";
+      document.getElementById('add-category-input').value = '';
     }
   });
 })();
 
 const renderCategories = () => {
-  const categoryList = document.getElementById("categories-list");
-  categoryList.innerHTML = "";
+  const categoryList = document.getElementById('categories-list');
+  categoryList.innerHTML = '';
   categories.forEach((category) => {
-    const element = document.createElement("a");
-    const span = document.createElement("span");
-    const button = document.createElement("button");
-    element.setAttribute("href", `#${category}`);
-    element.addEventListener("click", (e) => {
+    const element = document.createElement('a');
+    const span = document.createElement('span');
+    const button = document.createElement('button');
+    element.setAttribute('href', `#${category}`);
+    element.addEventListener('click', (e) => {
       toggleSidebar();
     });
-    element.classList.add("item");
+    element.classList.add('item');
     span.innerText = category;
-    button.classList.add("ui", "icon", "grey", "button");
-    button.setAttribute("id", `delete-category-button-${category}`);
+    button.classList.add('ui', 'icon', 'grey', 'button');
+    button.setAttribute('id', `delete-category-button-${category}`);
     button.innerHTML = `<i class="delete icon"></i>`;
     button.onclick = function () {
       deleteCategory(category);
@@ -91,9 +94,9 @@ const renderCategories = () => {
 renderCategories();
 
 const toggleSidebar = () => {
-  const mediaQuery = window.matchMedia("(max-width: 992px)");
+  const mediaQuery = window.matchMedia('(max-width: 992px)');
   if (mediaQuery.matches) {
-    $(".ui.sidebar").sidebar("toggle");
+    $('.ui.sidebar').sidebar('toggle');
   }
 };
 
@@ -104,19 +107,20 @@ const deleteCategory = (category) => {
   updateLocalStorageCategories(categories);
 };
 
-window.addEventListener("hashchange", () => {
+window.addEventListener('hashchange', () => {
   if (window.location.hash) {
-    const hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
-    document.getElementById("page-title").innerText = hash;
+    // Puts hash in variable, and removes the # character
+    const hash = window.location.hash.substring(1);
+    document.getElementById('page-title').innerText = hash;
     renderTodos(todos);
   }
 });
 
 const simpleFormListener = (() => {
-  const todoFormSimple = document.getElementById("todoFormSimple");
-  todoFormSimple.addEventListener("submit", (e) => {
+  const todoFormSimple = document.getElementById('todoFormSimple');
+  todoFormSimple.addEventListener('submit', (e) => {
     e.preventDefault();
-    const todo = document.getElementById("todoInputSimple").value.trim();
+    const todo = document.getElementById('todoInputSimple').value.trim();
     if (todo.length > 0) {
       newTodoController(todo);
     }
@@ -130,20 +134,20 @@ const renderTodos = (todos) => {
     const hash = window.location.hash.substring(1);
     const filteredTodos = todos.filter((todo) => todo.category === hash);
     if (filteredTodos.length < 1) {
-      const element = document.createElement("p");
-      element.innerText = "So much empty! Add a new task below.";
-      document.getElementById("todoList").appendChild(element);
+      const element = document.createElement('p');
+      element.innerText = 'So much empty! Add a new task below.';
+      document.getElementById('todoList').appendChild(element);
     }
     filteredTodos.forEach((todo) => {
       renderChecklistItem(todos, todo);
       renderDetailedForm(todo);
     });
   } else {
-    const defaultTodos = todos.filter((todo) => todo.category === "Personal");
+    const defaultTodos = todos.filter((todo) => todo.category === 'Personal');
     if (defaultTodos.length < 1) {
-      const element = document.createElement("p");
-      element.innerText = "So much empty! Add a new task below.";
-      document.getElementById("todoList").appendChild(element);
+      const element = document.createElement('p');
+      element.innerText = 'So much empty! Add a new task below.';
+      document.getElementById('todoList').appendChild(element);
     }
     defaultTodos.forEach((todo) => {
       renderChecklistItem(todos, todo);
@@ -154,7 +158,7 @@ const renderTodos = (todos) => {
 renderTodos(todos);
 
 const newTodoController = (todo) => {
-  let category = "Personal";
+  let category = 'Personal';
   if (window.location.hash) {
     const hash = window.location.hash.substring(1);
     category = hash;
@@ -163,7 +167,6 @@ const newTodoController = (todo) => {
   addTodoToList(newTodo);
   renderTodos(todos);
   resetTodoForm();
-  console.log(newTodo);
   updateLocalStorageTodos(todos);
 };
 
@@ -192,9 +195,9 @@ const todoUpdateController = (
 // render detailed form and enable logic
 const renderDetailedForm = (todo) => {
   const moreButton = document.getElementById(`more-button-${todo.id}`);
-  moreButton.addEventListener("click", (e) => {
+  moreButton.addEventListener('click', (e) => {
     const todoForm = document.getElementById(`form-${todo.id}`);
-    moreButton.setAttribute("style", "display:none");
+    moreButton.setAttribute('style', 'display:none');
     todoForm.innerHTML = todoFormDetailedTemplate(todo);
 
     $(`#category-dropdown-${todo.id}`).dropdown({
@@ -206,13 +209,13 @@ const renderDetailedForm = (todo) => {
     $(`#status-dropdown-${todo.id}`).dropdown({
       values: [
         {
-          name: "Completed",
-          value: "true",
+          name: 'Completed',
+          value: 'true',
           selected: todo.completed === false ? false : true,
         },
         {
-          name: "Not Completed",
-          value: "false",
+          name: 'Not Completed',
+          value: 'false',
           selected: todo.completed === false ? true : false,
         },
       ],
@@ -220,7 +223,7 @@ const renderDetailedForm = (todo) => {
 
     document
       .getElementById(`delete-button-${todo.id}`)
-      .addEventListener("click", (e) => {
+      .addEventListener('click', (e) => {
         e.preventDefault();
         const index = todos.findIndex((x) => x.id === todo.id);
         todos.splice(index, 1);
@@ -231,18 +234,18 @@ const renderDetailedForm = (todo) => {
     //event listener for form submission
     document
       .getElementById(`detailed-form-${todo.id}`)
-      .addEventListener("submit", (e) => {
+      .addEventListener('submit', (e) => {
         e.preventDefault();
         const name = document.getElementById(`name-${todo.id}`).value;
         const notes = document.getElementById(`notes-${todo.id}`).value;
         const category = $(`#category-dropdown-${todo.id}`).dropdown(
-          "get value"
+          'get value'
         );
         const priority = $(`#priority-dropdown-${todo.id}`).dropdown(
-          "get value"
+          'get value'
         );
         const status =
-          $(`#status-dropdown-${todo.id}`).dropdown("get value") === "true"
+          $(`#status-dropdown-${todo.id}`).dropdown('get value') === 'true'
             ? true
             : false;
         const dueDate = document.getElementById(`dueDate-${todo.id}`).value;
@@ -261,34 +264,34 @@ const renderDetailedForm = (todo) => {
 
 //open menu
 document
-  .getElementById("sidebar-menu-button")
-  .addEventListener("click", (e) => {
-    $(".ui.sidebar").sidebar("toggle");
+  .getElementById('sidebar-menu-button')
+  .addEventListener('click', (e) => {
+    $('.ui.sidebar').sidebar('toggle');
   });
 
 // media query for fixed menu on desktop
 const renderDesktopView = () => {
-  document.querySelector(".sidebar").classList.add("visible");
-  $(".nav").parent().css("display", "none");
+  document.querySelector('.sidebar').classList.add('visible');
+  $('.nav').parent().css('display', 'none');
 };
 
-const mediaQuery = window.matchMedia("(min-width: 992px)");
+const mediaQuery = window.matchMedia('(min-width: 992px)');
 if (mediaQuery.matches) {
   renderDesktopView();
 }
 
-mediaQuery.addEventListener("change", (e) => {
+mediaQuery.addEventListener('change', (e) => {
   if (e.matches) {
     renderDesktopView();
   } else {
-    $(".sidebar").removeClass("visible");
-    $(".nav").parent().css("display", "block");
+    $('.sidebar').removeClass('visible');
+    $('.nav').parent().css('display', 'block');
   }
 });
 
 //if a library exists in local storage, add it
-if (window.localStorage.getItem("todos")) {
-  const localStorageTodos = JSON.parse(window.localStorage.getItem("todos"));
+if (window.localStorage.getItem('todos')) {
+  const localStorageTodos = JSON.parse(window.localStorage.getItem('todos'));
   todos.length = 0;
   localStorageTodos.forEach((todo) => {
     todos.push(
@@ -303,13 +306,12 @@ if (window.localStorage.getItem("todos")) {
       )
     );
   });
-  console.log(todos);
   renderTodos(todos);
 }
 
-if (window.localStorage.getItem("categories")) {
+if (window.localStorage.getItem('categories')) {
   const localStorageCategories = JSON.parse(
-    window.localStorage.getItem("categories")
+    window.localStorage.getItem('categories')
   );
   categories.length = 0;
   localStorageCategories.forEach((category) => {
